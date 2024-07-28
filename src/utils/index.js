@@ -95,3 +95,18 @@ module.exports.SubscribeMessage = async (channel, service) => {
     }
   );
 };
+
+
+module.exports.EstimatedDeliveryDate = ()=>{
+    // Get the current date
+  const currentDate = new Date();
+
+  // Add 7 days to the current date
+  const futureDate = new Date(currentDate);
+  futureDate.setDate(currentDate.getDate() + 7);
+
+  // Format the future date to a readable string
+  const formattedFutureDate = futureDate.toDateString();
+
+  return formattedFutureDate;
+}

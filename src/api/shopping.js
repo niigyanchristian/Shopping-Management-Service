@@ -1,5 +1,5 @@
 const ShoppingService = require("../services/shopping-service");
-const { PublishCustomerEvent, SubscribeMessage } = require("../utils");
+const { PublishCustomerEvent, SubscribeMessage, EstimatedDeliveryDate } = require("../utils");
 const  UserAuth = require('./middlewares/auth');
 const { CUSTOMER_SERVICE, DELIVERY_SERVICE, PRODUCT_SERVICE } = require('../config');
 const { PublishMessage } = require('../utils')
@@ -20,14 +20,11 @@ module.exports = (app,channel) => {
         const data_delivery = {
             orderId: data.orderId,
             trackingNumber: "TRACK"+'-'+Math.random()*10+'-'+data.orderId.toString().substr(0,8),
-            currentLocation: "Warehouse A",
-            estimatedDeliveryDate: "2024-07-20T00:00:00.000Z",
-            longitude:-0.18277,
-            latitude:5.655661,
+            estimatedDeliveryDate: EstimatedDeliveryDate(),
+            longitude:destCoords?.lng,
+            latitude:destCoords?.lat,
             cost:deliveryFee/100
         }
-        console.log("payload=>",payload);
-        // console.log(data_delivery);
         const payload_delivery = await service.GetOrderPayload(_id, data_delivery, 'CREATE_DELIVERY')
 
 
